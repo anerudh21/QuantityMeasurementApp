@@ -1,4 +1,5 @@
 import { getUnits, getHistory } from "./api.js";
+import { populateDropdown } from "./ui.js";
 
 const state = {
   type: "length",
@@ -75,13 +76,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const unitDropdowns = document.querySelectorAll(".unit-dropdown");
 
     unitDropdowns.forEach((dropdown) => {
-      dropdown.innerHTML = "";
-      matchingUnits.forEach((unit) => {
-        const option = document.createElement("option");
-        option.value = unit.symbol;
-        option.textContent = unit.label;
-        dropdown.appendChild(option);
-      });
+      populateDropdown(dropdown, matchingUnits);
     });
 
     state.fromUnit = unitDropdowns[0]?.value || "";
