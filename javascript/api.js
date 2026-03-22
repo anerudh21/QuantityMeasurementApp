@@ -11,16 +11,6 @@ export async function getUnits(type) {
   return await res.json();
 }
 
-export async function getHistory() {
-  const res = await fetch(`${BASE_URL}/history`);
-  
-  if (!res.ok) {
-    throw new Error(`HTTP ${res.status}: Failed to fetch history`);
-  }
-  
-  return await res.json();
-}
-
 export async function getConversion(from, to) {
   if (from === to) {
     return { from, to, factor: 1, formula: "1:1" };
@@ -58,5 +48,22 @@ export async function saveHistory(record) {
   } catch (error) {
     console.error("[History] Error saving calculation record:", error.message);
     return null;
+  }
+}
+
+export async function getHistory() {
+  try {
+    const res = await fetch(`${BASE_URL}/history?_sort=timestamp&_order=desc`);
+
+    if (!res.ok) {
+      console.error(`[History] HTTP ${res.status} - Failed to fetch history`);
+      return [];
+    }
+
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
+  } catch (error) {
+    console.error("[History] Network error fetching calculation records:", error.message);
+    return [];
   }
 }
