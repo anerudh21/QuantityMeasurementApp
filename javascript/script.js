@@ -1,5 +1,5 @@
 import { getUnits, getHistory } from "./api.js";
-import { populateDropdown } from "./ui.js";
+import { populateDropdown, setActive } from "./ui.js";
 
 const state = {
   type: "length",
@@ -17,10 +17,10 @@ let cachedHistory = [];
 document.addEventListener("DOMContentLoaded", async () => {
   function attachEventListeners() {
     const cards = document.querySelectorAll(".card");
+    const cardsContainer = cards[0]?.parentElement;
     cards.forEach((card) => {
       card.addEventListener("click", async () => {
-        cards.forEach((item) => item.classList.remove("active"));
-        card.classList.add("active");
+        setActive(cardsContainer, card, ".card");
 
         const selectedType = card.querySelector(".card-descriptor")?.textContent?.trim().toLowerCase();
         if (!selectedType) return;
@@ -39,10 +39,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     const actionButtons = document.querySelectorAll(".action-button");
+    const buttonsContainer = actionButtons[0]?.parentElement;
     actionButtons.forEach((button) => {
       button.addEventListener("click", () => {
-        actionButtons.forEach((item) => item.classList.remove("active"));
-        button.classList.add("active");
+        setActive(buttonsContainer, button, ".action-button");
         state.action = (button.textContent || "conversion").trim().toLowerCase();
         toggleOperators(state.action === "arithmetic");
       });
