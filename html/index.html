@@ -3,115 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quantity Measurement - Coral Pro</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <title>Quantity Measurement</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-
-    <input type="radio" name="unit-toggle" id="type-length" checked>
-    <input type="radio" name="unit-toggle" id="type-weight">
-    <input type="radio" name="unit-toggle" id="type-temp">
-    <input type="radio" name="unit-toggle" id="type-volume">
-
-    <div class="app-wrapper">
-        <header class="main-header">
-            <h1>Welcome To Quantity Measurement</h1>
-        </header>
-
-        <main class="content-card">
-            <section class="control-section">
-                <p class="section-label">CHOOSE TYPE</p>
-                <div class="grid-layout">
-                    <label for="type-length" class="card-option" id="btn-length">
-                        <span class="icon">📏</span>
-                        <p>Length</p>
-                    </label>
-                    <label for="type-weight" class="card-option" id="btn-weight">
-                        <span class="icon">⚖️</span>
-                        <p>Weight</p>
-                    </label>
-                    <label for="type-temp" class="card-option" id="btn-temp">
-                        <span class="icon">🌡️</span>
-                        <p>Temperature</p>
-                    </label>
-                    <label for="type-volume" class="card-option" id="btn-volume">
-                        <span class="icon">🥛</span>
-                        <p>Volume</p>
-                    </label>
-                </div>
-            </section>
-
-            <section class="control-section">
-                <p class="section-label">CHOOSE ACTION</p>
-                <div class="action-flex">
-                    <button class="action-tab active">Comparison</button>
-                    <button class="action-tab">Conversion</button>
-                    <button class="action-tab">Arithmetic</button>
-                </div>
-            </section>
-
-            <div class="display-container">
-                <div class="unit-panel" id="panel-length">
-                    <div class="input-row">
-                        <div class="field-box">
-                            <p class="label">FROM</p>
-                            <input type="text" value="1">
-                            <select><option>Kilometer</option><option>Meter</option></select>
-                        </div>
-                        <div class="field-box">
-                            <p class="label">TO</p>
-                            <input type="text" value="1000">
-                            <select><option>Meters</option><option>Centimeters</option></select>
-                        </div>
+    <header class="header">
+        <h1 class="heading-primary inter-body">Welcome To Quantity Measurement</h1>
+    </header>
+    <div class="conversion-container">
+        <div class="type-container">
+            <span class="text-body inter-body">CHOOSE TYPE</span>
+            <div class="card-container">
+                <div class="card">
+                    <div class="svg-container">
+                        <img class="icons" src="../assets/ruler.svg">
                     </div>
+                    <div class="text-body inter-body card-descriptor">Length</div>
                 </div>
-
-                <div class="unit-panel" id="panel-weight">
-                    <div class="input-row">
-                        <div class="field-box">
-                            <p class="label">FROM</p>
-                            <input type="text" value="1">
-                            <select><option>Kilogram</option></select>
-                        </div>
-                        <div class="field-box">
-                            <p class="label">TO</p>
-                            <input type="text" value="1000">
-                            <select><option>Grams</option></select>
-                        </div>
+                <div class="card">
+                    <div class="svg-container">
+                        <img class="icons" src="../assets/balance.svg">
                     </div>
+                    <div class="text-body inter-body card-descriptor">Weight</div>
                 </div>
-
-                <div class="unit-panel" id="panel-temp">
-                    <div class="input-row">
-                        <div class="field-box">
-                            <p class="label">FROM</p>
-                            <input type="text" value="0">
-                            <select><option>Celsius</option></select>
-                        </div>
-                        <div class="field-box">
-                            <p class="label">TO</p>
-                            <input type="text" value="32">
-                            <select><option>Fahrenheit</option></select>
-                        </div>
+                <div class="card">
+                    <div class="svg-container">
+                        <img class="icons" src="../assets/temperature.svg">
                     </div>
+                    <div class="text-body inter-body card-descriptor">Temperature</div>
                 </div>
-
-                <div class="unit-panel" id="panel-volume">
-                    <div class="input-row">
-                        <div class="field-box">
-                            <p class="label">FROM</p>
-                            <input type="text" value="1">
-                            <select><option>Litre</option></select>
+                <div class="card">
+                    <div class="svg-container">
+                        <img class="icons" src="../assets/beaker.svg">
+                    </div>
+                    <div class="text-body inter-body card-descriptor">Volume</div>
+                </div>
+            </div>
+        </div>
+        <div class="action-container">
+            <span class="text-body inter-body">CHOOSE ACTION</span>
+            <div class="action-type-container">
+                <button class="action-button">Comparision</button>
+                <button class="action-button">Conversion</button>
+                <button class="action-button">Arithmetic</button>
+            </div>
+            <div class="converter">
+                <div class="table-header">
+                    <span class="text-body inter-body">FROM</span>
+                    <span class="text-body inter-body">TO</span>
+                </div>
+                <div class="table-body">
+                    <div class="input-container">
+                        <input class="input-field inter-body" type="text" placeholder="0">
+                        <div class="input-unit-dropdown">
+                            <select class="unit-dropdown inter-body">
+                                <option value="meter">Meter</option>
+                                <option value="kilometer">Kilometer</option>
+                                <option value="centimeter">Centimeter</option>
+                                <option value="millimeter">Millimeter</option>
+                                <option value="mile">Mile</option>
+                                <option value="yard">Yard</option>
+                                <option value="feet">Feet</option>
+                                <option value="inch">Inch</option>
+                            </select>
                         </div>
-                        <div class="field-box">
-                            <p class="label">TO</p>
-                            <input type="text" value="1000">
-                            <select><option>Millilitres</option></select>
+
+                    </div>
+                    <div class="operator-row" data-operator-row>
+                        <select class="operator-dropdown inter-body" aria-label="Arithmetic operator">
+                            <option value="+">+</option>
+                            <option value="-">-</option>
+                            <option value="*">x</option>
+                            <option value="/">÷</option>
+                        </select>
+                    </div>
+                    <div class="input-container">
+                        <input class="input-field inter-body" type="text" placeholder="0">
+                        <div class="input-unit-dropdown">
+                            <select class="unit-dropdown inter-body">
+                                <option value="meter">Meter</option>
+                                <option value="kilometer">Kilometer</option>
+                                <option value="centimeter">Centimeter</option>
+                                <option value="millimeter">Millimeter</option>
+                                <option value="mile">Mile</option>
+                                <option value="yard">Yard</option>
+                                <option value="feet">Feet</option>
+                                <option value="inch">Inch</option>
+                            </select>
                         </div>
                     </div>
                 </div>
             </div>
-        </main>
+        </div>
     </div>
+    <script type="module" src="../javascript/script.js"></script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://api.measurement.azaken.com";
+import { getUnits, getHistory } from "./api.js";
 
 const state = {
   type: "length",
@@ -56,24 +56,20 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   async function loadUnits(type) {
-    const response = await fetch(`${API_BASE_URL}/units`);
-    if (!response.ok && response.status !== 304) {
-      throw new Error("Failed to load units");
-    }
-
-    let unitsPayload;
+    let allUnits;
     try {
-      unitsPayload = await response.json();
-    } catch (_) {
-      unitsPayload = cachedUnits;
+      const unitsPayload = await getUnits(type);
+      allUnits = Array.isArray(unitsPayload) ? unitsPayload : unitsPayload?.units;
+      if (!Array.isArray(allUnits)) {
+        throw new Error("Invalid units response");
+      }
+      cachedUnits = allUnits;
+    } catch (error) {
+      allUnits = cachedUnits;
+      if (!Array.isArray(allUnits) || allUnits.length === 0) {
+        throw error;
+      }
     }
-
-    const allUnits = Array.isArray(unitsPayload) ? unitsPayload : unitsPayload?.units;
-    if (!Array.isArray(allUnits)) {
-      throw new Error("Invalid units response");
-    }
-
-    cachedUnits = allUnits;
 
     const matchingUnits = allUnits.filter((unit) => String(unit.type).toLowerCase() === type.toLowerCase());
     const unitDropdowns = document.querySelectorAll(".unit-dropdown");
@@ -106,20 +102,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   async function loadHistory() {
-    const response = await fetch(`${API_BASE_URL}/history`);
-    if (!response.ok && response.status !== 304) {
-      throw new Error("Failed to load history");
-    }
-
-    let historyPayload;
     try {
-      historyPayload = await response.json();
+      const historyPayload = await getHistory();
+      const items = Array.isArray(historyPayload) ? historyPayload : historyPayload?.history || [];
+      cachedHistory = items;
     } catch (_) {
-      historyPayload = cachedHistory;
+      cachedHistory = cachedHistory || [];
     }
-
-    const items = Array.isArray(historyPayload) ? historyPayload : historyPayload?.history || [];
-    cachedHistory = items;
   }
 
   function showErrorBanner(message) {
