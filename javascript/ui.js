@@ -68,3 +68,33 @@ export function toggleOperators(show) {
 
   operatorSelector.style.display = show ? "flex" : "none";
 }
+
+export function renderHistory(records) {
+  const list = document.querySelector("#history-list");
+  
+  if (!list) {
+    console.warn("Element #history-list not found");
+    return;
+  }
+
+  if (!records || !Array.isArray(records)) {
+    records = [];
+  }
+
+  list.innerHTML = "";
+
+  if (records.length === 0) {
+    const placeholder = document.createElement("li");
+    placeholder.className = "history-placeholder";
+    placeholder.textContent = "No history yet.";
+    list.appendChild(placeholder);
+    return;
+  }
+
+  records.forEach(r => {
+    const li = document.createElement("li");
+    const timestamp = new Date(r.timestamp).toLocaleString();
+    li.textContent = `${r.expression}  =  ${r.result}  (${timestamp})`;
+    list.appendChild(li);
+  });
+}

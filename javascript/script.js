@@ -1,5 +1,5 @@
 import { getUnits, getHistory } from "./api.js";
-import { populateDropdown, setActive } from "./ui.js";
+import { populateDropdown, setActive, toggleOperators, renderHistory } from "./ui.js";
 
 const state = {
   type: "length",
@@ -90,19 +90,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (firstActionButton) firstActionButton.classList.add("active");
   }
 
-  function toggleOperators(show) {
-    const operatorRow = document.querySelector(".operator-row") || document.querySelector("[data-operator-row]");
-    if (!operatorRow) return;
-    operatorRow.style.display = show ? "flex" : "none";
-  }
-
   async function loadHistory() {
     try {
       const historyPayload = await getHistory();
       const items = Array.isArray(historyPayload) ? historyPayload : historyPayload?.history || [];
       cachedHistory = items;
+      renderHistory(cachedHistory);
     } catch (_) {
       cachedHistory = cachedHistory || [];
+      renderHistory(cachedHistory);
     }
   }
 
