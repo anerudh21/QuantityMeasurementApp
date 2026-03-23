@@ -7,6 +7,7 @@ export function populateDropdown(selectEl, units) {
   selectEl.innerHTML = "";
 
   const defaultOption = document.createElement("option");
+  defaultOption.value = "";
   defaultOption.disabled = true;
   defaultOption.selected = true;
   defaultOption.textContent = "-- Select Unit --";
@@ -32,8 +33,14 @@ export function setActive(parentEl, clickedEl, childSelector) {
 }
 
 export function showResult(value, unitSymbol) {
+  const resultContainer = document.querySelector(".result-container");
   const resultValueEl = document.querySelector("#result-value");
   const resultUnitEl = document.querySelector("#result-unit");
+
+
+  if (resultContainer) {
+    resultContainer.style.display = "flex";
+  }
 
   if (value === null || value === undefined) {
     if (resultValueEl) resultValueEl.textContent = "—";
@@ -93,8 +100,38 @@ export function renderHistory(records) {
 
   records.forEach(r => {
     const li = document.createElement("li");
-    const timestamp = new Date(r.timestamp).toLocaleString();
-    li.textContent = `${r.expression}  =  ${r.result}  (${timestamp})`;
+    li.className = "history-item";
+    const date = new Date(r.timestamp);
+    const dateStr = date.toLocaleDateString();
+    const timeStr = date.toLocaleTimeString();
+    li.textContent = `${r.expression} = ${r.result}\n${dateStr} ${timeStr}`;
+    li.title = `${r.expression} = ${r.result} (${dateStr} ${timeStr})`;
     list.appendChild(li);
+  });
+}
+
+export function attachHistorySearch(records) {
+  const searchInput = document.querySelector("#history-search");
+  const historyList = document.querySelector("#history-list");
+  
+  if (!searchInput || !historyList) return;
+  
+  searchInput.addEventListener("input", (e) => {
+    const query = e.target.value.toLowerCase();
+    const items = historyList.querySelectorAll("li");
+    
+    items.forEach(item => {
+      if (item.classList.contains("history-placeholder")) {
+        item.style.display = records.length === 0 ? "block" : "none";
+        return;
+      }
+      
+      const text = item.textContent.toLowerCase();
+      if (text.includes(query)) {
+        item.style.display = "block";
+      } else {
+        item.style.display = "none";
+      }
+    });
   });
 }

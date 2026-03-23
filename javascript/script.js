@@ -1,6 +1,6 @@
 import { getUnits, getHistory } from "./api.js";
-import { populateDropdown, setActive, toggleOperators, renderHistory, showResult } from "./ui.js";
-import { handleTypeCardClick, handleActionTabClick } from "./app.js";
+import { populateDropdown, setActive, toggleOperators, renderHistory, showResult, attachHistorySearch } from "./ui.js";
+import { handleTypeCardClick, handleActionTabClick, calculate, updateHeaders } from "./app.js";
 
 const state = {
   type: "length",
@@ -20,10 +20,40 @@ document.addEventListener("DOMContentLoaded", async () => {
     handleTypeCardClick(state, showErrorBanner);
     handleActionTabClick(state);
 
+    // Input fields
+    const inputs = document.querySelectorAll(".input-field");
+    inputs.forEach((input, index) => {
+      input.addEventListener("input", (event) => {
+        const value = event.target.value;
+        if (index === 0) {
+          state.fromVal = value ? parseFloat(value) : null;
+        } else {
+          if (state.action !== "conversion") {
+            state.toVal = value ? parseFloat(value) : null;
+          }
+        }
+        calculate(state, showErrorBanner);
+      });
+    });
+
+    const unitDropdowns = document.querySelectorAll(".unit-dropdown");
+    unitDropdowns.forEach((dropdown, index) => {
+      dropdown.addEventListener("change", (event) => {
+        const value = event.target.value;
+        if (index === 0) {
+          state.fromUnit = value;
+        } else {
+          state.toUnit = value;
+        }
+        calculate(state, showErrorBanner);
+      });
+    });
+
     const operatorDropdown = document.querySelector(".operator-dropdown");
     if (operatorDropdown) {
       operatorDropdown.addEventListener("change", (event) => {
         state.operator = event.target.value;
+        calculate(state, showErrorBanner);
       });
     }
   }
@@ -49,6 +79,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     unitDropdowns.forEach((dropdown) => {
       populateDropdown(dropdown, matchingUnits);
+      if (matchingUnits.length > 0) {
+        dropdown.value = matchingUnits[0].symbol;
+      }
     });
 
     state.fromUnit = unitDropdowns[0]?.value || "";
@@ -60,6 +93,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     const conversionButton = document.querySelector('[data-action="conversion"]');
     if (firstTypeCard) firstTypeCard.classList.add("active");
     if (conversionButton) conversionButton.classList.add("active");
+    updateHeaders("conversion");
+    
+    const toInput = document.querySelectorAll(".input-field")[1];
+    if (toInput) {
+      toInput.readOnly = true;
+      toInput.style.cursor = "default";
+      toInput.style.backgroundColor = "#45475a";
+    }
   }
 
   async function loadHistory() {
@@ -68,9 +109,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       const items = Array.isArray(historyPayload) ? historyPayload : historyPayload?.history || [];
       cachedHistory = items;
       renderHistory(cachedHistory);
+      attachHistorySearch(cachedHistory);
     } catch (_) {
       cachedHistory = cachedHistory || [];
       renderHistory(cachedHistory);
+      attachHistorySearch(cachedHistory);
     }
   }
 
