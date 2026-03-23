@@ -1,5 +1,6 @@
 import { getUnits, getHistory } from "./api.js";
-import { populateDropdown, setActive, toggleOperators, renderHistory } from "./ui.js";
+import { populateDropdown, setActive, toggleOperators, renderHistory, showResult } from "./ui.js";
+import { handleTypeCardClick } from "./app.js";
 
 const state = {
   type: "length",
@@ -16,27 +17,7 @@ let cachedHistory = [];
 
 document.addEventListener("DOMContentLoaded", async () => {
   function attachEventListeners() {
-    const cards = document.querySelectorAll(".card");
-    const cardsContainer = cards[0]?.parentElement;
-    cards.forEach((card) => {
-      card.addEventListener("click", async () => {
-        setActive(cardsContainer, card, ".card");
-
-        const selectedType = card.querySelector(".card-descriptor")?.textContent?.trim().toLowerCase();
-        if (!selectedType) return;
-
-        state.type = selectedType;
-        try {
-          await loadUnits(state.type);
-        } catch (error) {
-          if (error instanceof TypeError) {
-            showErrorBanner("Server unavailable");
-          } else {
-            showErrorBanner("Failed to load units");
-          }
-        }
-      });
-    });
+    handleTypeCardClick(state, showErrorBanner);
 
     const actionButtons = document.querySelectorAll(".action-button");
     const buttonsContainer = actionButtons[0]?.parentElement;
