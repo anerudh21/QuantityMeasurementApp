@@ -1,5 +1,5 @@
 import { getUnits } from "./api.js";
-import { populateDropdown, setActive, showResult } from "./ui.js";
+import { populateDropdown, setActive, showResult, toggleOperators } from "./ui.js";
 
 
 export function handleTypeCardClick(state, showErrorBanner) {
@@ -48,6 +48,30 @@ export function handleTypeCardClick(state, showErrorBanner) {
           showErrorBanner("Failed to load units");
         }
       }
+    });
+  });
+}
+
+export function handleActionTabClick(state) {
+  const buttons = document.querySelectorAll(".action-btn");
+  const buttonsContainer = buttons[0]?.parentElement;
+
+  if (!buttonsContainer) {
+    console.warn("Action buttons container not found");
+    return;
+  }
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const selectedAction = button.dataset.action;
+      if (!selectedAction) return;
+
+      state.action = selectedAction;
+      setActive(buttonsContainer, button, ".action-btn");
+
+      toggleOperators(state.action === "arithmetic");
+
+      showResult(0, "");
     });
   });
 }

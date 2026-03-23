@@ -1,6 +1,6 @@
 import { getUnits, getHistory } from "./api.js";
 import { populateDropdown, setActive, toggleOperators, renderHistory, showResult } from "./ui.js";
-import { handleTypeCardClick } from "./app.js";
+import { handleTypeCardClick, handleActionTabClick } from "./app.js";
 
 const state = {
   type: "length",
@@ -18,16 +18,7 @@ let cachedHistory = [];
 document.addEventListener("DOMContentLoaded", async () => {
   function attachEventListeners() {
     handleTypeCardClick(state, showErrorBanner);
-
-    const actionButtons = document.querySelectorAll(".action-button");
-    const buttonsContainer = actionButtons[0]?.parentElement;
-    actionButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        setActive(buttonsContainer, button, ".action-button");
-        state.action = (button.textContent || "conversion").trim().toLowerCase();
-        toggleOperators(state.action === "arithmetic");
-      });
-    });
+    handleActionTabClick(state);
 
     const operatorDropdown = document.querySelector(".operator-dropdown");
     if (operatorDropdown) {
@@ -66,9 +57,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function setInitialActiveSelections() {
     const firstTypeCard = document.querySelector(".card");
-    const firstActionButton = document.querySelector(".action-button");
+    const conversionButton = document.querySelector('[data-action="conversion"]');
     if (firstTypeCard) firstTypeCard.classList.add("active");
-    if (firstActionButton) firstActionButton.classList.add("active");
+    if (conversionButton) conversionButton.classList.add("active");
   }
 
   async function loadHistory() {
