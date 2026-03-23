@@ -3,54 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quantity Measurement</title>
+    <title>Quantity Measurement - Coral Pro</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
     <div class="layout-wrapper">
         <header class="header">
-            <h1 class="heading-primary inter-body">Welcome To Quantity Measurement</h1>
+            <h1 class="heading-primary">Quantity Measurement</h1>
         </header>
 
         <div class="content-wrapper">
-            
             <div class="main-content">
                 <div class="conversion-container">
                     <div class="type-container">
-                        <span class="text-body inter-body">CHOOSE TYPE</span>
+                        <span class="text-label">CHOOSE TYPE</span>
                         <div class="card-container">
                             <div class="card" data-type="length">
                                 <div class="svg-container">
                                     <img class="icons" src="../assets/ruler.svg" alt="Length">
                                 </div>
-                                <div class="text-body inter-body card-descriptor">Length</div>
+                                <div class="card-descriptor">Length</div>
                             </div>
                             <div class="card" data-type="weight">
                                 <div class="svg-container">
                                     <img class="icons" src="../assets/balance.svg" alt="Weight">
                                 </div>
-                                <div class="text-body inter-body card-descriptor">Weight</div>
+                                <div class="card-descriptor">Weight</div>
                             </div>
                             <div class="card" data-type="temperature">
                                 <div class="svg-container">
                                     <img class="icons" src="../assets/temperature.svg" alt="Temperature">
                                 </div>
-                                <div class="text-body inter-body card-descriptor">Temperature</div>
+                                <div class="card-descriptor">Temperature</div>
                             </div>
                             <div class="card" data-type="volume">
                                 <div class="svg-container">
                                     <img class="icons" src="../assets/beaker.svg" alt="Volume">
                                 </div>
-                                <div class="text-body inter-body card-descriptor">Volume</div>
+                                <div class="card-descriptor">Volume</div>
                             </div>
                         </div>
                     </div>
 
                     <div class="action-container">
-                        <span class="text-body inter-body">CHOOSE ACTION</span>
+                        <span class="text-label">CHOOSE ACTION</span>
                         <div class="action-type-container">
                             <button class="action-button action-btn" data-action="comparison">Comparison</button>
                             <button class="action-button action-btn" data-action="conversion">Conversion</button>
@@ -59,28 +58,22 @@
 
                         <div class="converter">
                             <div class="table-header">
-                                <span class="text-body inter-body">FROM</span>
-                                <span class="text-body inter-body">TO</span>
+                                <span class="text-label">FROM</span>
+                                <span class="text-label">TO</span>
                             </div>
                             <div class="table-body">
                                 <div class="input-container">
-                                    <input class="input-field inter-body" type="text" placeholder="0">
+                                    <input class="input-field" type="text" placeholder="0">
                                     <div class="input-unit-dropdown">
-                                        <select class="unit-dropdown inter-body">
+                                        <select class="unit-dropdown">
                                             <option value="meter">Meter</option>
                                             <option value="kilometer">Kilometer</option>
-                                            <option value="centimeter">Centimeter</option>
-                                            <option value="millimeter">Millimeter</option>
-                                            <option value="mile">Mile</option>
-                                            <option value="yard">Yard</option>
-                                            <option value="feet">Feet</option>
-                                            <option value="inch">Inch</option>
                                         </select>
                                     </div>
                                 </div>
                                 
                                 <div class="operator-row" data-operator-row>
-                                    <select class="operator-dropdown inter-body" aria-label="Arithmetic operator">
+                                    <select class="operator-dropdown" aria-label="Arithmetic operator">
                                         <option value="+">+</option>
                                         <option value="-">-</option>
                                         <option value="*">x</option>
@@ -89,17 +82,11 @@
                                 </div>
 
                                 <div class="input-container">
-                                    <input class="input-field inter-body" type="text" placeholder="0">
+                                    <input class="input-field" type="text" placeholder="0">
                                     <div class="input-unit-dropdown">
-                                        <select class="unit-dropdown inter-body">
+                                        <select class="unit-dropdown">
                                             <option value="meter">Meter</option>
                                             <option value="kilometer">Kilometer</option>
-                                            <option value="centimeter">Centimeter</option>
-                                            <option value="millimeter">Millimeter</option>
-                                            <option value="mile">Mile</option>
-                                            <option value="yard">Yard</option>
-                                            <option value="feet">Feet</option>
-                                            <option value="inch">Inch</option>
                                         </select>
                                     </div>
                                 </div>
@@ -110,23 +97,22 @@
 
                 <div class="result-container">
                     <div class="result-panel">
-                        <span class="text-body inter-body">RESULT</span>
-                        <div id="result-value" class="result-value inter-body">—</div>
-                        <div id="result-unit" class="result-unit inter-body"></div>
+                        <span class="text-label" style="color: white;">RESULT</span>
+                        <div id="result-value" class="result-value">—</div>
+                        <div id="result-unit" class="result-unit"></div>
                     </div>
                 </div>
             </div>
 
             <div class="history-sidebar">
                 <div class="history-panel">
-                    <span class="text-body inter-body">CALCULATION HISTORY</span>
-                    <input type="text" id="history-search" class="history-search inter-body" placeholder="Search history...">
+                    <span class="text-label">CALCULATION HISTORY</span>
+                    <input type="text" id="history-search" class="history-search" placeholder="Search history...">
                     <ul id="history-list" class="history-list">
                         <li class="history-placeholder">No history yet.</li>
                     </ul>
                 </div>
             </div>
-
         </div>
     </div>
     <script type="module" src="../javascript/script.js"></script>
